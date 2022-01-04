@@ -20,6 +20,10 @@ __email__ = "mail@normanalie.Fr"
 __status__ = "Dev"
 
 
+window = tk.Tk()
+errors = tk.StringVar()
+infos = tk.StringVar()
+
 input_files = ""
 output_path = ""
 
@@ -47,9 +51,12 @@ def browse_output():
 
 def convert():
     if not input_files:
-        errorLabel.config(text="Please select input file")
+        errors.set(errors.get() + "Please select input file\n")
     if not output_path:
-        errorLabel.config(text="Please select output folder")
+        errors.set(errors.get() + "Please select output folder\n")
+    
+    errors.set("")
+    infos.set("")
 
     for file in input_files:
         filename = os.path.split(file)[1]
@@ -58,20 +65,25 @@ def convert():
         try:
             converter.convert(file, output_file)
         except ValueError as e:
-            errorLabel.config(text=f"Error converting {filename}: \n {e}")
+            errors.set(errors.get() + f"Error converting {filename}: \n {e} \n")
         except Exception as e:
-            errorLabel.config(text=f"Unexpected error converting {filename}: \n {e}")
+            errors.set(errors.get() + f"Unexpected error converting {filename}: \n {e} \n")
+        else:
+            infos.set(infos.get() + f"{filename} converted ! \n")
+        window.update()
 
 
-window = tk.Tk()
 window.title("RAW Converter")
 window.geometry("900x500")
 
-errorLabel = tk.Label(window, text="", fg="red")
+errorLabel = tk.Label(window, textvariable=errors, fg="red")
 errorLabel.pack()
 
+infoLabel = tk.Label(window, textvariable=infos, fg="green")
+infoLabel.pack()
+
 label = tk.Label(window, text="Select input file(s)")
-label.pack(pady=(30, 10), fill="x")
+label.pack(pady=(20, 10), fill="x")
 
 button = tk.Button(window, text="Open...", command=browse_input)
 button.pack(ipady=5, ipadx=8)
