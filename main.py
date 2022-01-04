@@ -23,30 +23,33 @@ def browse_input():
 def browse_output():
     pass
 
+def convert():
+    pass
+
 
 window = tk.Tk()
 window.title("RAW Converter")
 window.geometry("900x500")
 
 label = tk.Label(window, text="Select input file(s)")
-label.pack()
+label.pack(pady=(50, 10), fill="x")
 
 button = tk.Button(window, text="Open...", command=browse_input)
-button.pack()
+button.pack(ipady=5, ipadx=8)
 
 label = tk.Label(window, text="Select output format")
-label.pack()
+label.pack(pady=(50, 10), fill="x")
 
 output_format = tk.StringVar(window, "jpeg")
 radioA = tk.Radiobutton(window, text=".jpeg",  variable=output_format, value="jpeg")
 radioB = tk.Radiobutton(window, text=".png", variable=output_format, value="png")
-radioA.pack()
-radioB.pack()
+radioA.pack(ipady=5, ipadx=8)
+radioB.pack(ipady=5, ipadx=8)
 
 label = tk.Label(window, text="Select output folder")
-label.pack()
+label.pack(pady=(50, 10))
 
-button = tk.Button(window, text="Browse...", command=browse_output)
-button.pack()
+button = tk.Button(window, text="Browse...", command=browse_output,)
+button.pack(ipady=5, ipadx=8)
 
 window.mainloop()
