@@ -52,4 +52,7 @@ label.pack(pady=(50, 10))
 button = tk.Button(window, text="Browse...", command=browse_output,)
 button.pack(ipady=5, ipadx=8)
 
+button = tk.Button(window, text="Convert !", command=convert,)
+button.pack(pady=(50, 0), ipady=8, ipadx=12)
+
 window.mainloop()
