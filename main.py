@@ -37,7 +37,13 @@ def browse_input():
     )
 
 def browse_output():
-    pass
+    global output_path
+    initialdir = os.getcwd()
+
+    output_path = filedialog.askdirectory(
+        initialdir=initialdir,
+        title="Select destination folder"
+    )
 
 def convert():
     pass
