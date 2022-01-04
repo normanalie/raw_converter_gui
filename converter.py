@@ -2,7 +2,7 @@ import rawpy
 import imageio
 import os
 
-raw_extensions = (".cr2", ".CR2")
+raw_extensions = (".cr2", ".CR2", ".NEF", ".nef", ".tiff", ".TIFF", ".bmp", ".BMP", ".dng", ".DNG", ".HEIC", ".heic")
 output_extensions = (".jpeg", ".JPEG", ".jpg", ".JPG", ".png", ".PNG")
 
 def convert(input_file: str, output_file: str) -> str:

@@ -14,7 +14,7 @@ import converter
 
 __author__ = "Norman Alié"
 __license__ = "GPL"
-__version__ = "0.2"
+__version__ = "0.3"
 __maintainer__ = "Norman Alié"
 __email__ = "mail@normanalie.Fr"
 __status__ = "Dev"
