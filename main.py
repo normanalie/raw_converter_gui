@@ -46,12 +46,20 @@ def browse_output():
     )
 
 def convert():
-    pass
+    if not input_files:
+        errorLabel.config(text="Please select input file")
+    if not output_path:
+        errorLabel.config(text="Please select output folder")
+
+    
 
 
 window = tk.Tk()
 window.title("RAW Converter")
 window.geometry("900x500")
+
+errorLabel = tk.Label(window, text="", fg="red")
+errorLabel.pack()
 
 label = tk.Label(window, text="Select input file(s)")
 label.pack(pady=(50, 10), fill="x")
