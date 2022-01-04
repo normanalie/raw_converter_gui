@@ -22,7 +22,6 @@ __status__ = "Dev"
 
 window = tk.Tk()
 errors = tk.StringVar()
-infos = tk.StringVar()
 
 input_files = ""
 output_path = ""
@@ -50,14 +49,20 @@ def browse_output():
     )
 
 def convert():
+    errors.set("")
     if not input_files:
         errors.set(errors.get() + "Please select input file\n")
     if not output_path:
         errors.set(errors.get() + "Please select output folder\n")
     
-    errors.set("")
-    infos.set("")
+    popup = tk.Toplevel()
+    popup.title("Progression...")
+    popup.geometry("200x500")
+    label = tk.Label(popup, text="Starting conversion...")
+    label.pack()
+    popup.update()
 
+    errors_count = 0
     for file in input_files:
         filename = os.path.split(file)[1]
         filename = os.path.splitext(filename)[0]
@@ -65,22 +70,28 @@ def convert():
         try:
             converter.convert(file, output_file)
         except ValueError as e:
-            errors.set(errors.get() + f"Error converting {filename}: \n {e} \n")
+            label = tk.Label(popup, text=f"❌ Error converting {filename} : \n {e} \n", fg="red")
+            errors_count += 1
         except Exception as e:
-            errors.set(errors.get() + f"Unexpected error converting {filename}: \n {e} \n")
+            label = tk.Label(popup, text=f"❌ Unexpected error converting {filename} : \n {e} \n", fg="red")
+            errors_count += 1
         else:
-            infos.set(infos.get() + f"{filename} converted ! \n")
-        window.update()
-
+            label = tk.Label(popup, text=f"✔ {filename} converted !", fg="green")
+        label.pack()
+        popup.update()
+    
+    label = tk.Label(popup, text=f"Completed !")
+    label.pack()
+    if errors_count:
+        label = tk.Label(popup, text=f"{errors_count} error(s) during conversion !", fg="red")
+        label.pack()
+    popup.update()
 
 window.title("RAW Converter")
 window.geometry("900x500")
 
 errorLabel = tk.Label(window, textvariable=errors, fg="red")
 errorLabel.pack()
-
-infoLabel = tk.Label(window, textvariable=infos, fg="green")
-infoLabel.pack()
 
 label = tk.Label(window, text="Select input file(s)")
 label.pack(pady=(20, 10), fill="x")
