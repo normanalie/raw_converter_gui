@@ -6,7 +6,11 @@
     This converter use tkinter for GUI, rawpy to open RAW and make a Numpy array, imageio and PIL to write the image on disk.
 """
 
+import os
 import tkinter as tk
+from tkinter import filedialog
+
+import converter
 
 __author__ = "Norman Alié"
 __license__ = "GPL"
@@ -16,9 +20,18 @@ __email__ = "mail@normanalie.Fr"
 __status__ = "Dev"
 
 
+input_files = ()
+output_path = ""
 
 def browse_input():
-    pass
+    input_files = filedialog.askopenfilenames(
+        initialdir=os.getcwd(),
+        title="Select one or multiples RAW images",
+        filetypes=(
+            ('RAW Images', converter.raw_extensions),
+            ('All files', '*.*')
+        )
+    )
 
 def browse_output():
     pass
