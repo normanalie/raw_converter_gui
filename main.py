@@ -16,6 +16,7 @@ __email__ = "mail@normanalie.Fr"
 __status__ = "Dev"
 
 
+
 def browse_input():
     pass
 
@@ -24,6 +25,8 @@ def browse_output():
 
 
 window = tk.Tk()
+window.title("RAW Converter")
+window.geometry("900x500")
 
 label = tk.Label(window, text="Select input file(s)")
 label.pack()
