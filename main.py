@@ -23,6 +23,7 @@ __status__ = "Dev"
 window = tk.Tk()
 errors = tk.StringVar()
 
+
 input_files = ""
 output_path = ""
 
@@ -39,6 +40,7 @@ def browse_input():
         )
     )
 
+
 def browse_output():
     global output_path
     initialdir = os.getcwd()
@@ -49,24 +51,46 @@ def browse_output():
     )
 
 def convert():
-    errors.set("")
-    if not input_files:
-        errors.set(errors.get() + "Please select input file\n")
-    if not output_path:
-        errors.set(errors.get() + "Please select output folder\n")
-    
-    popup = tk.Toplevel()
-    popup.title("Progression...")
-    popup.geometry("200x500")
-    label = tk.Label(popup, text="Starting conversion...")
-    label.pack()
-    popup.update()
+    def detect_errors():
+        """
+        Check if input and output path are not empty
+        """
+        if not input_files:
+            errors.set(errors.get() + "Please select input file\n")
+            return 1
+        if not output_path:
+            errors.set(errors.get() + "Please select output folder\n")
+            return 1
+        return 0
 
+    def popup_progression():
+        """
+        Genereate a popup window to display the progression log
+        """
+        popup = tk.Toplevel()
+        popup.title("Progression...")
+        popup.geometry("200x500")
+        label = tk.Label(popup, text="Starting conversion...")
+        label.pack()
+        popup.update()
+        return popup
+    
+    errors.set("")
+    if detect_errors():
+        return 1
+
+    popup = popup_progression()
     errors_count = 0
+
     for file in input_files:
         filename = os.path.split(file)[1]
         filename = os.path.splitext(filename)[0]
         output_file = os.path.join(output_path, filename + "." + output_format.get())
+
+        if not popup.winfo_exists:  # If the progression window is closed
+            errors.set(errors.get() + f"Conversion stopped at {filename}")
+            return 1
+
         try:
             converter.convert(file, output_file)
         except ValueError as e:
@@ -86,6 +110,9 @@ def convert():
         label = tk.Label(popup, text=f"{errors_count} error(s) during conversion !", fg="red")
         label.pack()
     popup.update()
+    return 0
+
+
 
 window.title("RAW Converter")
 window.geometry("900x500")
