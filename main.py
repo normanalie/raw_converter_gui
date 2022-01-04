@@ -20,12 +20,15 @@ __email__ = "mail@normanalie.Fr"
 __status__ = "Dev"
 
 
-input_files = ()
+input_files = ""
 output_path = ""
 
 def browse_input():
+    global input_files
+    initialdir = os.getcwd()
+
     input_files = filedialog.askopenfilenames(
-        initialdir=os.getcwd(),
+        initialdir=initialdir,
         title="Select one or multiples RAW images",
         filetypes=(
             ('RAW Images', converter.raw_extensions),
