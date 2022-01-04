@@ -51,7 +51,16 @@ def convert():
     if not output_path:
         errorLabel.config(text="Please select output folder")
 
-    
+    for file in input_files:
+        filename = os.path.split(file)[1]
+        filename = os.path.splitext(filename)[0]
+        output_file = os.path.join(output_path, filename + "." + output_format.get())
+        try:
+            converter.convert(file, output_file)
+        except ValueError as e:
+            errorLabel.config(text=f"Error converting {filename}: \n {e}")
+        except Exception as e:
+            errorLabel.config(text=f"Unexpected error converting {filename}: \n {e}")
 
 
 window = tk.Tk()
@@ -62,7 +71,7 @@ errorLabel = tk.Label(window, text="", fg="red")
 errorLabel.pack()
 
 label = tk.Label(window, text="Select input file(s)")
-label.pack(pady=(50, 10), fill="x")
+label.pack(pady=(30, 10), fill="x")
 
 button = tk.Button(window, text="Open...", command=browse_input)
 button.pack(ipady=5, ipadx=8)
